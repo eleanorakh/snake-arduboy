@@ -22,6 +22,30 @@ enum Directions {
 
 Directions direction = EAST;
 
+void moveSnake() {
+  int newCell[2];
+
+  if (direction == NORTH){
+    newCell[0] = snake[sizeOfSnake - 1][0];
+    newCell[1] = snake[sizeOfSnake - 1][1] - 1;
+  } else if (direction == EAST) {
+     newCell[0] = snake[sizeOfSnake - 1][0] + 1;
+     newCell[1] = snake[sizeOfSnake - 1][1];
+  } else if (direction == SOUTH){
+    newCell[0] = snake[sizeOfSnake - 1][0];
+    newCell[1] = snake[sizeOfSnake - 1][1] + 1;
+  } else if (direction == WEST){
+    newCell[0] = snake[sizeOfSnake - 1][0] - 1;
+    newCell[1] = snake[sizeOfSnake - 1][1];
+  }
+
+  for (int i = 0; i < sizeOfSnake; ++i) {
+    memcpy(snake[i], snake[i + 1], sizeof(snake[i]));
+  };
+
+  memcpy(snake[sizeOfSnake - 1], newCell, sizeof(newCell));
+}
+
 void handleInput() {
   if (arduboy.pressed(UP_BUTTON) && (direction & (EAST | WEST)) == direction) {
     direction = NORTH;
@@ -44,27 +68,7 @@ void loop() {
   };
 
   if (arduboy.everyXFrames(15)) {
-    int newCell[2];
-
-    if (direction == NORTH){
-      newCell[0] = snake[sizeOfSnake - 1][0];
-      newCell[1] = snake[sizeOfSnake - 1][1] - 1;
-    } else if (direction == EAST) {
-       newCell[0] = snake[sizeOfSnake - 1][0] + 1;
-       newCell[1] = snake[sizeOfSnake - 1][1];
-    } else if (direction == SOUTH){
-      newCell[0] = snake[sizeOfSnake - 1][0];
-      newCell[1] = snake[sizeOfSnake - 1][1] + 1;
-    } else if (direction == WEST){
-      newCell[0] = snake[sizeOfSnake - 1][0] - 1;
-      newCell[1] = snake[sizeOfSnake - 1][1];
-    }
-
-    for (int i = 0; i < sizeOfSnake; ++i) {
-      memcpy(snake[i], snake[i + 1], sizeof(snake[i]));
-    };
-
-    memcpy(snake[sizeOfSnake - 1], newCell, sizeof(newCell));
+    moveSnake();
   }
 
   handleInput();
