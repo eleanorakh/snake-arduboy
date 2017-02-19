@@ -22,6 +22,18 @@ enum Directions {
 
 Directions direction = EAST;
 
+void handleInput() {
+  if (arduboy.pressed(UP_BUTTON) && (direction & (EAST | WEST)) == direction) {
+    direction = NORTH;
+  } else if (arduboy.pressed(RIGHT_BUTTON) && (direction & (NORTH | SOUTH)) == direction) {
+    direction = EAST;
+  } else if (arduboy.pressed(DOWN_BUTTON) && (direction & (EAST | WEST)) == direction) {
+    direction = SOUTH;
+  } else if (arduboy.pressed(LEFT_BUTTON) && (direction & (NORTH | SOUTH)) == direction) {
+    direction = WEST;
+  }
+}
+
 void loop() {
   if (!(arduboy.nextFrame())) return;
 
@@ -55,15 +67,7 @@ void loop() {
     memcpy(snake[sizeOfSnake - 1], newCell, sizeof(newCell));
   }
 
-  if (arduboy.pressed(UP_BUTTON) && (direction & (EAST | WEST)) == direction) {
-    direction = NORTH;
-  } else if (arduboy.pressed(RIGHT_BUTTON) && (direction & (NORTH | SOUTH)) == direction) {
-    direction = EAST;
-  } else if (arduboy.pressed(DOWN_BUTTON) && (direction & (EAST | WEST)) == direction) {
-    direction = SOUTH;
-  } else if (arduboy.pressed(LEFT_BUTTON) && (direction & (NORTH | SOUTH)) == direction) {
-    direction = WEST;
-  }
+  handleInput();
 
   arduboy.display();
 }
