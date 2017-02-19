@@ -15,6 +15,8 @@ int snake[sizeOfSnake][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}};
 
 // 0 = right
 // 1 = down
+// 2 = left
+// 3 = up
 int direction = 0;
 
 void loop() {
@@ -32,9 +34,15 @@ void loop() {
     if (direction == 0) {
       newCell[0] = snake[sizeOfSnake - 1][0] + 1;
       newCell[1] = snake[sizeOfSnake - 1][1];
-    } else {
+    } else if (direction == 1){
       newCell[0] = snake[sizeOfSnake - 1][0];
       newCell[1] = snake[sizeOfSnake - 1][1] + 1;
+    } else if (direction == 3){
+      newCell[0] = snake[sizeOfSnake - 1][0];
+      newCell[1] = snake[sizeOfSnake - 1][1] - 1;
+    } else if (direction == 2){
+      newCell[0] = snake[sizeOfSnake - 1][0] - 1;
+      newCell[1] = snake[sizeOfSnake - 1][1];
     }
 
     for (int i = 0; i < sizeOfSnake; ++i) {
@@ -46,7 +54,11 @@ void loop() {
 
   if (arduboy.pressed(DOWN_BUTTON)) {
     direction = 1;
-  } else {
+  } else if (arduboy.pressed(UP_BUTTON)) {
+    direction = 3;
+  } else if (arduboy.pressed(LEFT_BUTTON)) {
+    direction = 2;
+  } else if (arduboy.pressed(RIGHT_BUTTON)) {
     direction = 0;
   }
 
