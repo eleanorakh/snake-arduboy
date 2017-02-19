@@ -22,6 +22,12 @@ enum Directions {
 
 Directions direction = EAST;
 
+void drawSnake() {
+  for (int i = 0; i < sizeOfSnake - 1; i++) {
+    arduboy.fillRect(snake[i][0] * 2, snake[i][1] * 2, 2, 2, 1);
+  };
+}
+
 void moveSnake() {
   int newCell[2];
 
@@ -63,9 +69,7 @@ void loop() {
 
   arduboy.clear();
 
-  for (int i = 0; i < sizeOfSnake - 1; i++) {
-    arduboy.fillRect(snake[i][0] * 2, snake[i][1] * 2, 2, 2, 1);
-  };
+  drawSnake();
 
   if (arduboy.everyXFrames(15)) {
     moveSnake();
