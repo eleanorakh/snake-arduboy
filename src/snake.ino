@@ -34,15 +34,15 @@ void loop() {
   if (arduboy.everyXFrames(15)) {
     int newCell[2];
 
-    if (direction == EAST) {
-      newCell[0] = snake[sizeOfSnake - 1][0] + 1;
-      newCell[1] = snake[sizeOfSnake - 1][1];
+    if (direction == NORTH){
+      newCell[0] = snake[sizeOfSnake - 1][0];
+      newCell[1] = snake[sizeOfSnake - 1][1] - 1;
+    } else if (direction == EAST) {
+       newCell[0] = snake[sizeOfSnake - 1][0] + 1;
+       newCell[1] = snake[sizeOfSnake - 1][1];
     } else if (direction == SOUTH){
       newCell[0] = snake[sizeOfSnake - 1][0];
       newCell[1] = snake[sizeOfSnake - 1][1] + 1;
-    } else if (direction == NORTH){
-      newCell[0] = snake[sizeOfSnake - 1][0];
-      newCell[1] = snake[sizeOfSnake - 1][1] - 1;
     } else if (direction == WEST){
       newCell[0] = snake[sizeOfSnake - 1][0] - 1;
       newCell[1] = snake[sizeOfSnake - 1][1];
@@ -55,14 +55,14 @@ void loop() {
     memcpy(snake[sizeOfSnake - 1], newCell, sizeof(newCell));
   }
 
-  if (arduboy.pressed(DOWN_BUTTON)) {
-    direction = SOUTH;
-  } else if (arduboy.pressed(UP_BUTTON)) {
+  if (arduboy.pressed(UP_BUTTON)) {
     direction = NORTH;
-  } else if (arduboy.pressed(LEFT_BUTTON)) {
-    direction = WEST;
   } else if (arduboy.pressed(RIGHT_BUTTON)) {
     direction = EAST;
+  } else if (arduboy.pressed(DOWN_BUTTON)) {
+    direction = SOUTH;
+  } else if (arduboy.pressed(LEFT_BUTTON)) {
+    direction = WEST;
   }
 
   arduboy.display();
