@@ -14,10 +14,10 @@ const int sizeOfSnake = 5;
 int snake[sizeOfSnake][2] = {{0, 0}, {1, 0}, {2, 0}, {3, 0}, {4, 0}};
 
 enum Directions {
-  NORTH,
-  EAST,
-  SOUTH,
-  WEST
+  NORTH = 1,
+  EAST = 2,
+  SOUTH = 4,
+  WEST = 8
 };
 
 Directions direction = EAST;
@@ -55,13 +55,13 @@ void loop() {
     memcpy(snake[sizeOfSnake - 1], newCell, sizeof(newCell));
   }
 
-  if (arduboy.pressed(UP_BUTTON)) {
+  if (arduboy.pressed(UP_BUTTON) && (direction & (EAST | WEST)) == direction) {
     direction = NORTH;
-  } else if (arduboy.pressed(RIGHT_BUTTON)) {
+  } else if (arduboy.pressed(RIGHT_BUTTON) && (direction & (NORTH | SOUTH)) == direction) {
     direction = EAST;
-  } else if (arduboy.pressed(DOWN_BUTTON)) {
+  } else if (arduboy.pressed(DOWN_BUTTON) && (direction & (EAST | WEST)) == direction) {
     direction = SOUTH;
-  } else if (arduboy.pressed(LEFT_BUTTON)) {
+  } else if (arduboy.pressed(LEFT_BUTTON) && (direction & (NORTH | SOUTH)) == direction) {
     direction = WEST;
   }
 
